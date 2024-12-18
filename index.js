@@ -29,6 +29,14 @@ function gerarFaturaStr (fatura, pecas) {
         return total;
     }
 
+    function calcularCredito(apre) {
+      let creditos = 0;
+      creditos += Math.max(apre.audiencia - 30, 0);
+      if (getPeca(apre).tipo === "comedia") 
+         creditos += Math.floor(apre.audiencia / 5);
+      return creditos;   
+    }
+
     let totalFatura = 0;
     let creditos = 0;
     let faturaStr = `Fatura ${fatura.cliente}\n`;
@@ -42,10 +50,7 @@ function gerarFaturaStr (fatura, pecas) {
       let total = calcularTotalApresentacao(apre)
   
       // créditos para próximas contratações
-      creditos += Math.max(apre.audiencia - 30, 0);
-      if (getPeca(apre).tipo === "comedia") 
-         creditos += Math.floor(apre.audiencia / 5);
-  
+      creditos+=calcularCredito(apre)
       // mais uma linha da fatura
       faturaStr += `  ${getPeca(apre).nome}: ${formato(total/100)} (${apre.audiencia} assentos)\n`;
       totalFatura += total;
